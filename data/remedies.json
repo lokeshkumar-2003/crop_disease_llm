@@ -3,7 +3,9 @@
     "disease": "Bacterial Leaf Blight",
     "pesticide": {
       "chemical": "Streptocycline + Copper Oxychloride",
-      "dosage": "Streptocycline 0.1 g + Copper Oxychloride 2.5 g per liter of water"
+      "dosage_per_liter": 2.6,
+      "dosage_unit": "g",
+      "description": "Streptocycline 0.1 g + Copper Oxychloride 2.5 g per liter of water"
     },
     "organic_remedies": [
       "Neem oil spray (3 ml per liter)",
@@ -22,7 +24,9 @@
     "disease": "Brown Spot",
     "pesticide": {
       "chemical": "Mancozeb",
-      "dosage": "2.5 g per liter of water"
+      "dosage_per_liter": 2.5,
+      "dosage_unit": "g",
+      "description": "2.5 g per liter of water"
     },
     "organic_remedies": [
       "Neem seed kernel extract (5%)",
@@ -41,7 +45,9 @@
     "disease": "Leaf Blast",
     "pesticide": {
       "chemical": "Tricyclazole",
-      "dosage": "0.6 g per liter of water"
+      "dosage_per_liter": 0.6,
+      "dosage_unit": "g",
+      "description": "0.6 g per liter of water"
     },
     "organic_remedies": [
       "Neem oil spray",
@@ -60,7 +66,9 @@
     "disease": "Sheath Blight",
     "pesticide": {
       "chemical": "Validamycin",
-      "dosage": "2 ml per liter of water"
+      "dosage_per_liter": 2,
+      "dosage_unit": "ml",
+      "description": "2 ml per liter of water"
     },
     "organic_remedies": [
       "Trichoderma viride soil application",
@@ -78,8 +86,10 @@
   "tungro_virus": {
     "disease": "Tungro Virus",
     "pesticide": {
-      "chemical": "Imidacloprid (for vector control)",
-      "dosage": "0.3 ml per liter of water"
+      "chemical": "Imidacloprid (vector control)",
+      "dosage_per_liter": 0.3,
+      "dosage_unit": "ml",
+      "description": "0.3 ml per liter of water"
     },
     "organic_remedies": [
       "Neem oil spray to control leafhoppers",
