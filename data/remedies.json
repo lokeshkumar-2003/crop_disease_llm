@@ -1,0 +1,96 @@
+{
+  "bacterial_leaf_blight": {
+    "disease": "Bacterial Leaf Blight",
+    "pesticide": {
+      "chemical": "Streptocycline + Copper Oxychloride",
+      "dosage": "Streptocycline 0.1 g + Copper Oxychloride 2.5 g per liter of water"
+    },
+    "organic_remedies": [
+      "Neem oil spray (3 ml per liter)",
+      "Cow dung slurry spray",
+      "Use disease-resistant varieties"
+    ],
+    "safety_rules": [
+      "Wear gloves and mask while spraying",
+      "Do not spray during strong wind",
+      "Avoid spraying near water bodies",
+      "Follow waiting period before harvest"
+    ]
+  },
+
+  "brown_spot": {
+    "disease": "Brown Spot",
+    "pesticide": {
+      "chemical": "Mancozeb",
+      "dosage": "2.5 g per liter of water"
+    },
+    "organic_remedies": [
+      "Neem seed kernel extract (5%)",
+      "Balanced fertilization (especially potassium)",
+      "Proper field drainage"
+    ],
+    "safety_rules": [
+      "Avoid skin and eye contact",
+      "Do not exceed recommended dosage",
+      "Store chemicals away from children",
+      "Wash hands after spraying"
+    ]
+  },
+
+  "leaf_blast": {
+    "disease": "Leaf Blast",
+    "pesticide": {
+      "chemical": "Tricyclazole",
+      "dosage": "0.6 g per liter of water"
+    },
+    "organic_remedies": [
+      "Neem oil spray",
+      "Apply silicon-rich organic manure",
+      "Use blast-resistant varieties"
+    ],
+    "safety_rules": [
+      "Use protective clothing",
+      "Spray during early morning or evening",
+      "Do not mix with incompatible chemicals",
+      "Dispose empty containers safely"
+    ]
+  },
+
+  "sheath_blight": {
+    "disease": "Sheath Blight",
+    "pesticide": {
+      "chemical": "Validamycin",
+      "dosage": "2 ml per liter of water"
+    },
+    "organic_remedies": [
+      "Trichoderma viride soil application",
+      "Neem cake application",
+      "Avoid dense planting"
+    ],
+    "safety_rules": [
+      "Follow label instructions strictly",
+      "Avoid inhalation of spray",
+      "Do not eat or drink during spraying",
+      "Clean spraying equipment after use"
+    ]
+  },
+
+  "tungro_virus": {
+    "disease": "Tungro Virus",
+    "pesticide": {
+      "chemical": "Imidacloprid (for vector control)",
+      "dosage": "0.3 ml per liter of water"
+    },
+    "organic_remedies": [
+      "Neem oil spray to control leafhoppers",
+      "Remove and destroy infected plants",
+      "Use tungro-resistant varieties"
+    ],
+    "safety_rules": [
+      "Do not spray near pollinators",
+      "Use recommended concentration only",
+      "Avoid repeated use to prevent resistance",
+      "Follow re-entry interval after spraying"
+    ]
+  }
+}

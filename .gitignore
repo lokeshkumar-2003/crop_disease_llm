@@ -1,0 +1,68 @@
+# ---------------- Python ----------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# ---------------- Virtual Environment ----------------
+venv/
+env/
+.venv/
+
+# ---------------- Environment Variables ----------------
+.env
+
+# ---------------- Logs ----------------
+*.log
+
+# ---------------- IDE / Editor ----------------
+.vscode/
+.idea/
+*.iml
+
+# ---------------- OS ----------------
+.DS_Store
+Thumbs.db
+
+# ---------------- Jupyter ----------------
+.ipynb_checkpoints/
+
+# ---------------- TensorFlow / Keras ----------------
+*.h5
+*.keras
+*.pb
+saved_model/
+
+# ---------------- ML Artifacts ----------------
+checkpoints/
+tensorboard/
+logs/
+
+# ---------------- Uploaded Files ----------------
+uploads/
+*.jpg
+*.jpeg
+*.png
+
+# ---------------- Cache ----------------
+.cache/
+pip-wheel-metadata/
+
+# ---------------- FastAPI ----------------
+*.sqlite3
+
+# ---------------- ONNX / Export ----------------
+*.onnx
+
+# ---------------- Coverage / Testing ----------------
+.coverage
+htmlcov/
+
+# ---------------- Misc ----------------
+*.tmp
+*.bak
