@@ -1,0 +1,264 @@
+from google import genai
+from dotenv import load_dotenv
+import os
+
+
+# Load environment variables
+load_dotenv()
+
+# Create GenAI client (NEW SDK STYLE)
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
+
+def generate_advice(context: dict) -> str:
+    """
+    Generate concise, scannable farmer-friendly advisory in selected language.
+    """
+
+    language = context.get('language', 'english').lower()
+
+    # Language-specific instructions
+    language_instructions = {
+        'english': {
+            'instruction': 'Respond ENTIRELY in ENGLISH only.',
+            'example_format': """
+## 🔍 Problem
+[Disease description]
+
+## 💊 Quick Fix
+**Chemical:** Pesticide name - dose/liter
+**Organic:** Natural alternative
+
+## 📋 Steps
+1. [Action 1]
+2. [Action 2]
+3. [Action 3]
+
+## ⚠️ Safety
+- [Safety tip 1]
+- [Safety tip 2]
+
+## ✅ Result
+[Expected outcome]
+"""
+        },
+        'tamil': {
+            'instruction': 'Respond ENTIRELY in TAMIL (தமிழ்) script only. Every word must be in Tamil. Do NOT use English.',
+            'example_format': """
+## 🔍 பிரச்சனை
+[நோய் விளக்கம்]
+
+## 💊 விரைவு தீர்வு
+**ரசாயனம்:** பூச்சிக்கொல்லி பெயர் - டோஸ்/லிட்டர்
+**இயற்கை:** இயற்கை மாற்று
+
+## 📋 படிகள்
+1. [செயல் 1]
+2. [செயல் 2]
+3. [செயல் 3]
+
+## ⚠️ பாதுகாப்பு
+- [பாதுகாப்பு குறிப்பு 1]
+- [பாதுகாப்பு குறிப்பு 2]
+
+## ✅ முடிவு
+[எதிர்பார்க்கப்படும் விளைவு]
+"""
+        },
+        'hindi': {
+            'instruction': 'Respond ENTIRELY in HINDI (हिंदी) script only. Every word must be in Hindi. Do NOT use English.',
+            'example_format': """
+## 🔍 समस्या
+[रोग का विवरण]
+
+## 💊 त्वरित उपाय
+**रसायन:** कीटनाशक का नाम - खुराक/लीटर
+**जैविक:** प्राकृतिक विकल्प
+
+## 📋 कदम
+1. [कार्रवाई 1]
+2. [कार्रवाई 2]
+3. [कार्रवाई 3]
+
+## ⚠️ सुरक्षा
+- [सुरक्षा टिप 1]
+- [सुरक्षा टिप 2]
+
+## ✅ परिणाम
+[अपेक्षित परिणाम]
+"""
+        },
+        'telugu': {
+            'instruction': 'Respond ENTIRELY in TELUGU (తెలుగు) script only. Every word must be in Telugu. Do NOT use English.',
+            'example_format': """
+## 🔍 సమస్య
+[వ్యాధి వివరణ]
+
+## 💊 త్వరిత పరిష్కారం
+**రసాయన:** పురుగుమందు పేరు - మోతాదు/లీటరు
+**సేంద్రీయ:** సహజ ప్రత్యామ్నాయం
+
+## 📋 దశలు
+1. [చర్య 1]
+2. [చర్య 2]
+3. [చర్య 3]
+
+## ⚠️ భద్రత
+- [భద్రతా చిట్కా 1]
+- [భద్రతా చిట్కా 2]
+
+## ✅ ఫలితం
+[అంచనా వేసిన ఫలితం]
+"""
+        },
+        'kannada': {
+            'instruction': 'Respond ENTIRELY in KANNADA (ಕನ್ನಡ) script only. Every word must be in Kannada. Do NOT use English.',
+            'example_format': """
+## 🔍 ಸಮಸ್ಯೆ
+[ರೋಗದ ವಿವರಣೆ]
+
+## 💊 ತ್ವರಿತ ಪರಿಹಾರ
+**ರಾಸಾಯನಿಕ:** ಕೀಟನಾಶಕ ಹೆಸರು - ಪ್ರಮಾಣ/ಲೀಟರ್
+**ಸಾವಯವ:** ನೈಸರ್ಗಿಕ ಪರ್ಯಾಯ
+
+## 📋 ಹಂತಗಳು
+1. [ಕ್ರಿಯೆ 1]
+2. [ಕ್ರಿಯೆ 2]
+3. [ಕ್ರಿಯೆ 3]
+
+## ⚠️ ಸುರಕ್ಷತೆ
+- [ಸುರಕ್ಷತಾ ಸಲಹೆ 1]
+- [ಸುರಕ್ಷತಾ ಸಲಹೆ 2]
+
+## ✅ ಫಲಿತಾಂಶ
+[ನಿರೀಕ್ಷಿತ ಫಲಿತಾಂಶ]
+"""
+        },
+        'malayalam': {
+            'instruction': 'Respond ENTIRELY in MALAYALAM (മലയാളം) script only. Every word must be in Malayalam. Do NOT use English.',
+            'example_format': """
+## 🔍 പ്രശ്നം
+[രോഗ വിവരണം]
+
+## 💊 പെട്ടെന്നുള്ള പരിഹാരം
+**രാസവസ്തു:** കീടനാശിനി പേര് - അളവ്/ലിറ്റർ
+**ജൈവം:** പ്രകൃതി ബദൽ
+
+## 📋 ഘട്ടങ്ങൾ
+1. [പ്രവർത്തനം 1]
+2. [പ്രവർത്തനം 2]
+3. [പ്രവർത്തനം 3]
+
+## ⚠️ സുരക്ഷ
+- [സുരക്ഷാ നുറുങ്ങ് 1]
+- [സുരക്ഷാ നുറുങ്ങ് 2]
+
+## ✅ ഫലം
+[പ്രതീക്ഷിത ഫലം]
+"""
+        },
+    }
+
+    lang_config = language_instructions.get(
+        language, language_instructions['english']
+    )
+
+    prompt = f"""
+You are an agricultural advisor. Give SHORT, ACTIONABLE advice.
+
+LANGUAGE REQUIREMENT (MANDATORY):
+{lang_config['instruction']}
+This is the most important rule. ALL text including headings, labels, and content MUST be in the specified language.
+
+STRICT RULES:
+- Keep response under 200 words
+- Use bullet points, NOT paragraphs
+- Be direct and specific
+- Add emojis for visual scanning (🌾 💊 ⚠️ ✅)
+- Follow the format example exactly
+
+CROP INFO:
+Disease: {context.get('disease', 'Unknown')}
+Location: {context.get('location', 'Unknown')}
+Temp: {context.get('temperature', 'N/A')}°C | Humidity: {context.get('humidity', 'N/A')}%
+
+TREATMENT:
+Chemical: {context.get('chemical', 'Unknown')}
+Dose: {context.get('dosage_per_liter', 'N/A')}/liter
+Water: {context.get('water_required', 'N/A')}L
+Organic: {", ".join(context.get('organic', [])[:2])}
+
+FORMAT EXAMPLE:
+{lang_config['example_format']}
+
+Keep it SHORT and SCANNABLE. Respond only in {language.upper()}.
+"""
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-1.5-flash", 
+            contents=prompt
+        )
+
+        return response.text.strip()
+
+    except Exception as e:
+        # Fallback messages per language
+        fallback_headers = {
+            'tamil': ('பிரச்சனை', 'விரைவு தீர்வு', 'படிகள்', 'பாதுகாப்பு', 'முடிவு',
+                      'கலக்கவும்', 'மாலையில் தெளிக்கவும்', '7 நாட்கள் பிறகு மீண்டும்',
+                      'கையுறை மற்றும் முகமூடி அணியவும்', 'உணவிலிருந்து விலக்கி வைக்கவும்',
+                      '5-7 நாட்களில் சுதாரிக்கும்'),
+            'hindi': ('समस्या', 'त्वरित उपाय', 'कदम', 'सुरक्षा', 'परिणाम',
+                      'कीटनाशक मिलाएं', 'शाम को छिड़काव करें', '7 दिन बाद दोहराएं',
+                      'दस्ताने और मास्क पहनें', 'भोजन से दूर रखें',
+                      '5-7 दिनों में सुधार होगा'),
+        }
+
+        fb = fallback_headers.get(language)
+        if fb:
+            p, qf, st, sf, rs, s1, s2, s3, sf1, sf2, r1 = fb
+            return f"""
+## 🔍 {p}
+{context.get('disease', 'Crop disease')}
+
+## 💊 {qf}
+**{context.get('chemical', 'Pesticide')}** - {context.get('dosage_per_liter', 'As per label')}/liter
+
+## 📋 {st}
+1. {s1}
+2. {s2}
+3. {s3}
+
+## ⚠️ {sf}
+- {sf1}
+- {sf2}
+
+## ✅ {rs}
+{r1}
+"""
+        else:
+            return f"""
+## 🔍 Problem
+{context.get('disease', 'Crop disease')} detected
+
+## 💊 Quick Fix
+**Use:** {context.get('chemical', 'Pesticide')}
+**Dose:** {context.get('dosage_per_liter', 'As per label')}/liter
+
+## 📋 Steps
+1. Mix pesticide properly
+2. Spray in evening
+3. Repeat after 7 days
+
+## ⚠️ Safety
+- Wear gloves and mask
+- Keep away from food
+
+## ✅ Result
+Should improve in 5-7 days
+
+*Error: {str(e)}*
+"""
